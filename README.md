@@ -75,5 +75,10 @@ DELETE http://localhost:3000/books/1
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
+## Middleware и интерцепторы
+- `RequestLoggerMiddleware` (`src/middleware/request-logger.middleware.ts`): назначает `x-request-id` запросу/ответу и логирует начало и завершение запроса с длительностью. Подключен в `AppModule` для всех маршрутов `books` (любые HTTP-методы).
+- `MetricsInterceptor` (`src/interceptors/metrics.interceptor.ts`): измеряет время ответа и статус, выводит метрику в консоль. Применен ко всем хендлерам `BooksController`.
+- `MetricsModule.forRoot()` подключен в `AppModule` и делает метрики глобально доступными. `MetricsModule.forFeature('books')` импортирован в `BooksModule`, чтобы добавить метку фичи к логам интерцептора.
+
 ## База данных 
-В качестве БД используется sqlite.
+В качестве БД используется sqlite 
